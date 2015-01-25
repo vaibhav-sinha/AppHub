@@ -58,6 +58,7 @@ public class HomeFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         appDataSortHelper = new AppDataSortHelper();
         eventBus.register(this);
+        progressDialog = ProgressDialog.show(getActivity(), "Adobe Products", "Downloading data...", true, true);
     }
 
     @Override
@@ -110,10 +111,6 @@ public class HomeFragment extends BaseFragment {
 
         apiService.loadAppList(getActivity());
 
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setTitle("Adobe Products");
-        progressDialog.setMessage("Downloading data...");
-        progressDialog.show();
 
         return rootView;
     }
