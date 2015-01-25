@@ -1,6 +1,7 @@
 package com.adobe.apphub.Fragments;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -46,6 +47,7 @@ public class HomeFragment extends BaseFragment {
 
     private List<AppData> appDataList;
     private AppDataSortHelper appDataSortHelper;
+    private ProgressDialog progressDialog;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -108,6 +110,11 @@ public class HomeFragment extends BaseFragment {
 
         apiService.loadAppList(getActivity());
 
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setTitle("Adobe Products");
+        progressDialog.setMessage("Downloading data...");
+        progressDialog.show();
+
         return rootView;
     }
 
@@ -130,6 +137,7 @@ public class HomeFragment extends BaseFragment {
         else {
             Toast.makeText(getActivity(), "Could not fetch list of apps. Error = " + event.getError(), Toast.LENGTH_LONG).show();
         }
+        progressDialog.dismiss();
     }
 
     private void cleanList(List<AppData> appDataList) {
