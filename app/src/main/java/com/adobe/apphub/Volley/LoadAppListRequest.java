@@ -3,6 +3,7 @@ package com.adobe.apphub.Volley;
 import android.content.Context;
 
 import com.adobe.apphub.Base.BaseClass;
+import com.adobe.apphub.Datastore.Cache;
 import com.adobe.apphub.Events.LoadAppListEvent;
 import com.adobe.apphub.Helpers.NetworkAccessHelper;
 import com.adobe.apphub.Models.AppData;
@@ -29,6 +30,8 @@ public class LoadAppListRequest extends BaseClass {
     EventBus eventBus;
     @Inject
     NetworkAccessHelper networkAccessHelper;
+    @Inject
+    Cache cache;
 
     public void processRequest(Context context) {
         StringRequest request = new StringRequest("http://adobe.0x10.info/api/products?type=json", createSuccessListener(context), createErrorListener(context));
@@ -59,6 +62,7 @@ public class LoadAppListRequest extends BaseClass {
                     loadAppListEvent.setSuccess(true);
                     loadAppListEvent.setAppDataList(appDataList);
                     eventBus.postSticky(loadAppListEvent);
+                    cache.updateAppList(context, json);
                 } catch (JsonParseException e) {
                     LoadAppListEvent loadAppListEvent = new LoadAppListEvent();
                     loadAppListEvent.setSuccess(false);

@@ -19,6 +19,7 @@ import com.adobe.apphub.Base.BaseFragment;
 import com.adobe.apphub.Datastore.Server;
 import com.adobe.apphub.Events.LoadAppListEvent;
 import com.adobe.apphub.Events.ProductSelectedEvent;
+import com.adobe.apphub.Helpers.ApiService;
 import com.adobe.apphub.Helpers.AppDataSortHelper;
 import com.adobe.apphub.Models.AppData;
 import com.adobe.apphub.R;
@@ -35,7 +36,7 @@ public class HomeFragment extends BaseFragment {
     @Inject
     EventBus eventBus;
     @Inject
-    Server server;
+    ApiService apiService;
 
     private ListView appList;
     private TextView count;
@@ -55,7 +56,6 @@ public class HomeFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         appDataSortHelper = new AppDataSortHelper();
         eventBus.register(this);
-        server.loadAppList(getActivity());
     }
 
     @Override
@@ -105,6 +105,8 @@ public class HomeFragment extends BaseFragment {
                 eventBus.post(event);
             }
         });
+
+        apiService.loadAppList(getActivity());
 
         return rootView;
     }

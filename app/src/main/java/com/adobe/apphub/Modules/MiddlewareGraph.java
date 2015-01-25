@@ -5,10 +5,13 @@ import android.content.Context;
 import com.adobe.apphub.Activities.HomeActivity;
 import com.adobe.apphub.Activities.ProductDetailsActivity;
 import com.adobe.apphub.Activities.SplashActivity;
+import com.adobe.apphub.Datastore.Cache;
 import com.adobe.apphub.Datastore.Server;
 import com.adobe.apphub.Fragments.HomeFragment;
 import com.adobe.apphub.Fragments.ProductDetailsFragment;
+import com.adobe.apphub.Helpers.ApiService;
 import com.adobe.apphub.Helpers.NetworkAccessHelper;
+import com.adobe.apphub.Helpers.SharedPreferencesHelper;
 import com.adobe.apphub.Volley.LoadAppListRequest;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -32,7 +35,9 @@ import de.greenrobot.event.EventBus;
                 HomeActivity.class,
                 HomeFragment.class,
                 ProductDetailsActivity.class,
-                ProductDetailsFragment.class
+                ProductDetailsFragment.class,
+                ApiService.class,
+                Cache.class
         },
         library = true,
         complete = true
@@ -57,7 +62,6 @@ public class MiddlewareGraph {
 
     @Provides @Singleton
     public RequestQueue provideRequestQueue() {
-        /** Set up to use OkHttp */
         return Volley.newRequestQueue(this.applicationContext);
     }
 
@@ -74,5 +78,20 @@ public class MiddlewareGraph {
     @Provides @Singleton
     public Server provideServer() {
         return new Server();
+    }
+
+    @Provides @Singleton
+    public Cache provideCache() {
+        return new Cache();
+    }
+
+    @Provides @Singleton
+    public ApiService provideApiService() {
+        return new ApiService();
+    }
+
+    @Provides @Singleton
+    public SharedPreferencesHelper provideSharedPreferencesHelper() {
+        return new SharedPreferencesHelper();
     }
 }
