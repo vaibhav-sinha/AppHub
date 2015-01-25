@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -17,6 +18,7 @@ import com.adobe.apphub.Adapters.AppListAdapter;
 import com.adobe.apphub.Base.BaseFragment;
 import com.adobe.apphub.Datastore.Server;
 import com.adobe.apphub.Events.LoadAppListEvent;
+import com.adobe.apphub.Events.ProductSelectedEvent;
 import com.adobe.apphub.Helpers.AppDataSortHelper;
 import com.adobe.apphub.Models.AppData;
 import com.adobe.apphub.R;
@@ -91,6 +93,16 @@ public class HomeFragment extends BaseFragment {
             public void onClick(View v) {
                 appDataSortHelper.sortByRatings(appDataList);
                 setData(appDataList);
+            }
+        });
+
+        appList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ProductSelectedEvent event = new ProductSelectedEvent();
+                event.setSuccess(true);
+                event.setAppData((AppData) appList.getAdapter().getItem(position));
+                eventBus.post(event);
             }
         });
 
